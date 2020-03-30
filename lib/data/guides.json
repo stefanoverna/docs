@@ -1,5 +1,18 @@
 [
   {
+    "title": "Create a Next.js App with DatoCMS and Deploy It with ZEIT Now",
+    "description": "Deploy your Next.js and DatoCMS app with ZEIT Now in a serverless environment.",
+    "published": "2020-03-30T16:51:04.000Z",
+    "authors": ["msweeneydev"],
+    "url": "/guides/deploying-next-datocms-with-now",
+    "image": "undefined/guides/deploying-next-datocms-with-now/deploying-next-datocms-with-now.png",
+    "editUrl": "pages/guides/deploying-next-datocms-with-now.mdx",
+    "name": "Next.js + DatoCMS",
+    "type": "site",
+    "demo": "https://next-blog-datocms.now.sh/",
+    "lastEdited": "2020-03-30T15:21:10.000Z"
+  },
+  {
     "title": "Create and Deploy a TakeShape Blog with ZEIT Now",
     "description": "How to launch a blog site using Next.js and TakeShape on ZEIT Now in minutes.",
     "published": "2020-03-24T12:00:00.860Z",

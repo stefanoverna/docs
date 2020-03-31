@@ -12,7 +12,7 @@ export const meta = {
   description:
     'Deploy your Next.js and DatoCMS app with ZEIT Now in a serverless environment.',
   published: '2020-03-30T16:51:04.000Z',
-  authors: ['msweeneydev'],
+  authors: ['stefanoverna'],
   url: '/guides/deploying-next-datocms-with-now',
   image: `${
     process.env.ASSETS
@@ -21,10 +21,10 @@ export const meta = {
   name: 'Next.js + DatoCMS',
   type: 'site',
   demo: 'https://next-blog-datocms.now.sh/',
-  lastEdited: '2020-03-30T15:21:10.000Z'
+  lastEdited: '2020-03-31T14:39:45.000Z'
 }
 
-This example showcases Next.js's [Static Generation](https://nextjs.org/docs/basic-features/pages) feature using [DatoCMS](https://www.datocms.com/) as the data source. In this guide, you will discover how to build a simple blog by utilizing [DatoCMS GraphQL API](https://www.datocms.com/), before deploying **with a single command** to [ZEIT Now](/docs/v2).
+This example showcases Next.js's [Static Generation](https://nextjs.org/docs/basic-features/pages#static-generation-recommended) feature using [DatoCMS](https://www.datocms.com/) as the data source. In this guide, you will discover how to build a simple blog by using [DatoCMS GraphQL API](https://www.datocms.com/), before deploying **with a single command** to [ZEIT Now](/docs/v2).
 
 <Image
   src={`${
@@ -39,7 +39,7 @@ This example showcases Next.js's [Static Generation](https://nextjs.org/docs/bas
 Two of its biggest selling points are:
 
 - **GraphQL API:** which means powerful developer tools and complete control over the data your website downloads;
-- **Out-of-the-box support to responsive, progressive, lazy-loaded images** thanks to the fact that its GraphQL API already exposes [pre-computed low-quality image placeholders](https://www.datocms.com/blog/offer-responsive-progressive-lqip-images-in-2020) (LQIP, or simply blur-up placeholders), allowing webpages to get everything they need in a single request, avoiding content reflowing.
+- **Out-of-the-box support to responsive, progressive, lazy-loaded images** thanks to the fact that its GraphQL API already exposes [pre-computed low-quality image placeholders](https://www.datocms.com/blog/offer-responsive-progressive-lqip-images-in-2020) (LQIP, or simply blur-up placeholders), allowing webpages to get everything they need in a single request, avoiding content reflows.
 
 <Image
   src={`${
@@ -56,7 +56,7 @@ By following this guide, you will be able to create a starting point to get you 
 
 ## Step 1: Create your content
 
-First, [create an account on DatoCMS](https://datocms.com). After creating an account, create a **new project** from the dashboard. You can select a **Blank Project**. Once created enter the project.
+First, [create an account on DatoCMS](https://datocms.com). After creating an account, create a **new project** from the dashboard. You can select a **Blank Project**. Once created, enter the project.
 
 ### Create an `Author` model
 
@@ -84,8 +84,8 @@ Repeat the process to create a new model: this time we'll call it **Post**.
 
 <Note>
   From the "Additional Settings" tab, turn on{' '}
-  <strong>Enable draft/published system.</strong> This lets you preview the
-  content.
+  <strong>Enable draft/published system.</strong> This setting lets you preview
+  the content.
 </Note>
 
 Next, add these fields (you don't have to modify the settings unless specified):
@@ -100,7 +100,7 @@ Next, add these fields (you don't have to modify the settings unless specified):
 
 ### Populate content
 
-From the **Content** menu at the top, select **Author** and create a new record. Just use dummy data for the text, and for the image, you can download one from [Unsplash](https://unsplash.com/).
+From the **Content** menu at the top, select **Author** and then create a new record. Just use dummy data for the text, and you can download one image from [Unsplash](https://unsplash.com/) for the picture.
 
 <Image
   src={`${
@@ -120,16 +120,16 @@ Then create a couple of **Post** records. You can write markdown for the **Conte
   If not, the post will be in the draft state.
 </Note>
 
-That's it for creating content! You can edit both your **Content** and **Models** at any time, giving you complete flexibility over your content.
+That's it for creating content! In general, you can edit both **Content** and **Models** at any time, giving you complete flexibility over your content.
 
-Next, create a set of API keys for use in your app, this will allow you to connect to the [DatoCMS Client](https://www.datocms.com/developers/docs/javascript/tutorials/using-js-cda-sdk/) to request your posts.
+Next, create a set of API tokens to be used in your app, these will allow the [DatoCMS Client](https://www.datocms.com/developers/docs/javascript/tutorials/using-js-cda-sdk/) to request your posts from our API.
 
 ## Step 2: Create a read-only API key
 
 Click the **Settings** tab, and choose the **API tokens** option, then click on the plus icon to create a new **API token**.
 
 <Note>
-  Make sure you only give it permissions to access the (read-only) Content
+  Make sure you only give the permissions to access the (read-only) Content
   Delivery API!
 </Note>
 
@@ -152,15 +152,15 @@ In the next step, you will create your [Next.js](https://nextjs.org/) app.
 
 ## Step 3: Create your Next.js App
 
-First create a new Next.js application using [create-next-app](https://create-react-app.dev/). Run the following command and follow the wizard:
+Create a new Next.js application using [create-next-app](https://create-react-app.dev/), then run the following command and follow the wizard:
 
 <Snippet dark text="npm init next-app" />
 
-Then enter inside the project directory, install the [`graphql-request`](https://github.com/prisma-labs/graphql-request) package, and start the development server:
+Enter inside the project directory, install the [`graphql-request`](https://github.com/prisma-labs/graphql-request) package and start the development server:
 
 <Snippet dark text="cd my-app && yarn add graphql-request && yarn dev" />
 
-First you'll need to setup a GraphQL client pointing to the API of your DatoCMS project. Create a new directory `lib`, and inside of it create a file called `datocms.js`:
+You'll need to setup a GraphQL client pointing to the API of your DatoCMS project. Create a new `lib` directory for that, and inside of it create a file called `datocms.js`:
 
 ```jsx
 import { GraphQLClient } from 'graphql-request'
@@ -179,11 +179,11 @@ export function request({ query, variables, preview }) {
 }
 ```
 
-We're using an environment variable starting with `NEXT_` so that it will be read by Next.js. Now we can set the env variable inside a file called `.env`:
+We're using an environment variable starting with `NEXT_` so that it will be automatically read by Next.js. Now we can set the env variable inside a file called `.env`:
 
 <Snippet dark text="echo 'NEXT_DATOCMS_API_TOKEN=YOUR-API-TOKEN' >> .env" />
 
-Make sure it will be ignored by git by adding it to `.gitignore`:
+Make sure that git will ignore it by adding it to `.gitignore`:
 
 <Snippet dark text="echo '.env' >> .gitignore" />
 
@@ -237,7 +237,7 @@ First, it requires the GraphQL client we just created. Then, inside the [`getSta
 
 ### Loading responsive, progressive images from DatoCMS
 
-One of the mayor advantages of using DatoCMS instead of any other content management systems is its [`responsiveImage` GraphQL query](/docs/content-delivery-api/images-and-videos#responsive-images), which will return **pre-computed image attributes that will help you setting up progressive, lazy-loaded images in your frontend without any additional manipulation**.
+One of the major advantages of using DatoCMS instead of any other content management systems is its [`responsiveImage` GraphQL query](/docs/content-delivery-api/images-and-videos#responsive-images), which will return **pre-computed image attributes that will help you setting up progressive, lazy-loaded images in your frontend without any additional manipulation**.
 
 The [`react-datocms`](https://github.com/datocms/react-datocms) exposes an `<Image/>` component that pairs perfectly with the `responsiveImage` query.
 
@@ -356,9 +356,9 @@ export default function Home({ data }) {
 
 ## Setup Next.js Preview Mode
 
-Using `getStaticProps`, props will be generated at build time, which is great from a performance point of view, but not ideal when you’re [writing a draft on DatoCMS](https://www.datocms.com/docs/general-concepts/draft-published) and want to preview the draft immediately on your page.
+When using `getStaticProps`, the props will be generated at build time, which is great from a performance point of view, but not ideal when you’re [writing a draft on DatoCMS](https://www.datocms.com/docs/general-concepts/draft-published). In this situation you want to preview the draft immediately on your page.
 
-Next.js has the feature called [Preview Mode](https://nextjs.org/docs/advanced-features/preview-mode) which solves this problem. Here’s an instruction on how to use it.
+For solving that problem, Next.js has the feature called [Preview Mode](https://nextjs.org/docs/advanced-features/preview-mode). Here’s an example on how to use it.
 
 ### Create a preview API route
 
@@ -374,7 +374,7 @@ export default (req, res) => {
 }
 ```
 
-You can test this manually accessing the route from your browser from `http://localhost:3000/api/preview`. You’ll notice that you'll be redirected to the homepage, and the `__prerender_bypass` and `__next_preview_data` cookies will be set.
+To test this, manually access the route from your browser by heading to `http://localhost:3000/api/preview`. You’ll notice that you'll be redirected to the homepage with two cookies set: `__prerender_bypass` and `__next_preview_data`.
 
 ### Update getStaticProps
 

@@ -11,30 +11,27 @@ export const meta = {
   title: 'Create a Next.js App with DatoCMS and Deploy It with ZEIT Now',
   description:
     'Deploy your Next.js and DatoCMS app with ZEIT Now in a serverless environment.',
-  published: '2020-03-30T16:51:04.000Z',
+  published: '2020-04-01T16:51:04.000Z',
   authors: ['stefanoverna'],
-  url: '/guides/deploying-next-datocms-with-now',
-  image: `${
-    process.env.ASSETS
-  }/guides/deploying-next-datocms-with-now/deploying-next-datocms-with-now.png`,
-  editUrl: 'pages/guides/deploying-next-datocms-with-now.mdx',
+  url: '/guides/deploying-next-datocms-with-zeit-now',
+  image:
+    'https://og-image.now.sh/**Create%20and%20deploy%20a%20blog**%20with%20Next.js%20and%20DatoCMS.png?theme=light&md=1&fontSize=100px&images=https%3A%2F%2Fassets.zeit.co%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fzeit-black-triangle.svg&images=https%3A%2F%2Fwww.datocms.com%2Fimages%2Fbrand-assets%2Fsvg%2Ficon-text%2Fcolor%2Fcolor_full_logo.svg',
+  editUrl: 'pages/guides/deploying-next-datocms-with-zeit-now.mdx',
   name: 'Next.js + DatoCMS',
   type: 'site',
   demo: 'https://next-blog-datocms.now.sh/',
-  lastEdited: '2020-03-31T14:39:45.000Z'
+  lastEdited: '2020-04-01T08:16:03.000Z'
 }
 
-This example showcases Next.js's [Static Generation](https://nextjs.org/docs/basic-features/pages#static-generation-recommended) feature using [DatoCMS](https://www.datocms.com/) as the data source. In this guide, you will discover how to build a simple blog by using [DatoCMS GraphQL API](https://www.datocms.com/), before deploying **with a single command** to [ZEIT Now](/docs/v2).
+This guide walks you through creating a simple blog using Next.js's [Static Generation](https://nextjs.org/docs/basic-features/pages) feature and [DatoCMS](https://www.datocms.com/) through [DatoCMS GraphQL API](https://www.datocms.com/) and deploying the project with [ZEIT Now](/).
 
 <Image
-  src={`${
-    process.env.ASSETS
-  }/guides/deploying-next-datocms-with-now/deploying-next-datocms-with-now.png`}
+  src="https://og-image.now.sh/**Create%20and%20deploy%20a%20blog**%20with%20Next.js%20and%20DatoCMS.png?theme=light&amp;md=1&amp;fontSize=100px&amp;images=https%3A%2F%2Fassets.zeit.co%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fzeit-black-triangle.svg&amp;images=https%3A%2F%2Fwww.datocms.com%2Fimages%2Fbrand-assets%2Fsvg%2Ficon-text%2Fcolor%2Fcolor_full_logo.svg"
   width={2048 / 2.5}
   height={1170 / 2.5}
 />
 
-[Next.js](https://nextjs.org/) from [ZEIT](https://zeit.co) is a **production-ready framework** that helps you create fast React apps. [DatoCMS](https://www.datocms.com/) is a powerful headless CMS that allows you to **rapidly create, manage and distribute content** to any platform you like.
+For the frontend of this project, you will be using Next.js – the production-ready React framework. For the backend you will be using [DatoCMS](https://www.datocms.com/) – a powerful headless CMS that allows you to **rapidly create, manage and distribute content** to any platform you like.
 
 Two of its biggest selling points are:
 
@@ -44,7 +41,7 @@ Two of its biggest selling points are:
 <Image
   src={`${
     process.env.ASSETS
-  }/guides/deploying-next-datocms-with-now/preview.mp4`}
+  }/guides/deploying-next-datocms-with-zeit-now/preview.mp4`}
   width={1440 / 1.5}
   height={900 / 1.5}
   oversize
@@ -52,7 +49,7 @@ Two of its biggest selling points are:
 />
 <Caption>Preview of the website, complete with blur-up image placeholders.</Caption>
 
-By following this guide, you will be able to create a starting point to get you up and running with your own app in minutes.
+Follow this guide to create a starting point for you to get your own blog up and running.
 
 ## Step 1: Create your content
 
@@ -70,7 +67,7 @@ Next, add these fields (you don't have to modify the settings):
 <Image
   src={`${
     process.env.ASSETS
-  }/guides/deploying-next-datocms-with-now/create-model.mp4`}
+  }/guides/deploying-next-datocms-with-zeit-now/create-model.mp4`}
   width={1440 / 1.5}
   height={900 / 1.5}
   oversize
@@ -98,6 +95,14 @@ Next, add these fields (you don't have to modify the settings unless specified):
 - **Author**: field of type **Single link** (under the _Links_ group). From the "Validations" tab under "Accept only specified model", select **Author**
 - **Slug**: field of type **Slug** (under the _SEO_ group). From the "Validations" tab under "Reference field" select **Title**
 
+### Create a `Blog` model
+
+The last model we need is called **Blog**. Make sure to check the "Single instance?" option for this, as we only want to create a **single record of this type** that will hold the SEO information for the blog page.
+
+Next, add these fields (you don't have to modify the settings unless specified):
+
+- **SEO**: field of type **SEO meta tags** (under the _SEO_ group)
+
 ### Populate content
 
 From the **Content** menu at the top, select **Author** and then create a new record. Just use dummy data for the text, and you can download one image from [Unsplash](https://unsplash.com/) for the picture.
@@ -105,7 +110,7 @@ From the **Content** menu at the top, select **Author** and then create a new re
 <Image
   src={`${
     process.env.ASSETS
-  }/guides/deploying-next-datocms-with-now/create-content.mp4`}
+  }/guides/deploying-next-datocms-with-zeit-now/create-content.mp4`}
   width={1440 / 1.5}
   height={900 / 1.5}
   oversize
@@ -119,6 +124,8 @@ Then create a couple of **Post** records. You can write markdown for the **Conte
   For each post record, you need to click <strong>Publish</strong> after saving.
   If not, the post will be in the draft state.
 </Note>
+
+Last step is to fill in some SEO meta tags for our blog. Go to the **Blog** section, insert a title and a description and click "Save".
 
 That's it for creating content! In general, you can edit both **Content** and **Models** at any time, giving you complete flexibility over your content.
 
@@ -136,7 +143,7 @@ Click the **Settings** tab, and choose the **API tokens** option, then click on 
 <Image
   src={`${
     process.env.ASSETS
-  }/guides/deploying-next-datocms-with-now/create-api-token.mp4`}
+  }/guides/deploying-next-datocms-with-zeit-now/create-api-token.mp4`}
   width={1440 / 1.5}
   height={900 / 1.5}
   oversize
@@ -194,7 +201,7 @@ import { request } from '../lib/datocms'
 
 const HOMEPAGE_QUERY = `
   query Home($limit: IntType) {
-    allBlogPosts(first: $limit) {
+    allPosts(first: $limit) {
       title
       excerpt
       date
@@ -223,7 +230,7 @@ export default function Home({ data }) {
 
 Let's take look at what this file achieves.
 
-First, it requires the GraphQL client we just created. Then, inside the [`getStaticProps` function](https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation), we perform the GraphQL request, so that Next.js will pre-render this page at build time using the props returned by it.
+First, it requires the GraphQL client we just created. Then, inside the [`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation) function, we perform the GraphQL request, so that Next.js will pre-render this page at build time using the props returned by it.
 
 <Note>
   The query depends on the models available in your specific DatoCMS project.
@@ -253,7 +260,7 @@ import { Image } from 'react-datocms'
 
 const HOMEPAGE_QUERY = `
 query HomePage($limit: IntType) {
-  allBlogPosts(first: $limit) {
+  allPosts(first: $limit) {
     id
     title
     coverImage {
@@ -289,7 +296,7 @@ export async function getStaticProps() {
 export default function Home({ data }) {
   return (
     <div>
-      {data.allBlogPosts.map(blogPost => (
+      {data.allPosts.map(blogPost => (
         <article key={blogPost.id}>
           <Image data={blogPost.coverImage.responsiveImage} />
           <h6>{blogPost.title}</h6>
@@ -393,7 +400,7 @@ Both endpoints offer exactly the same queries, the only thing that will change w
 import { request } from '../lib/datocms'
 
 const HOMEPAGE_QUERY = `query HomePage($limit: IntType) {
-  allBlogPosts(first: $limit) {
+  allPosts(first: $limit) {
     title
   }
 }`

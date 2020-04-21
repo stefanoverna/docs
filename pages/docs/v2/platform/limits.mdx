@@ -1,51 +1,38 @@
 import Doc from '~/components/layout/docs'
 import Limits from '~/components/limits'
 import Note from '~/components/text/note'
+import ProductName from '~/components/name/product-name'
+import { PRODUCT_NAME } from '~/lib/constants'
+import EmailLink from '~/components/text/email-link'
 
 export const meta = {
   title: 'Limits',
-  description:
-    'A list of limits and limitations that apply on the ZEIT Now platform.',
+  description: `A list of limits and limitations that apply on the ${PRODUCT_NAME} platform.`,
   editUrl: 'pages/docs/v2/platform/limits.mdx',
-  lastEdited: '2020-03-26T15:47:55.000Z'
+  lastEdited: '2020-04-17T16:45:50.000Z'
 }
 
-This page outlines all relevant limits and limitations present when using the ZEIT Now platform.
+This page outlines all relevant limits and limitations present when using the <ProductName /> platform.
 
-## Plans
+## General Limits
 
-This section highlights two areas relating to pricing plans, **Usage Allowances**, and **Plan Limits**.
-
-### Usage Allowances
-
-**Usage Allowances** are the maximum limits provided by each pricing plan. They specify a limit for the amount of resources available for use under that plan before deployments are blocked (Hobby plan) or [additional costs](/pricing) are incurred.
-
-<Note>
-  Execution time is calculated in units of 100ms. For example, 36ms will be
-  billed as 100ms and 286ms will be billed as 300ms.
-</Note>
+To prevent abuse of our platform, we apply the following limits to all accounts.
 
 <br />
 
-| Limit                  | Hobby | Pro | Business | Enterprise |
-| ---------------------- | ----- | --- | -------- | ---------- |
-| Bandwidth (GB)         | -     | 100 | 1000     | Custom     |
-| Build Time (Hours)     | -     | 10  | 100      | Custom     |
-| Execution Time (Hours) | -     | 100 | 1,000    | Custom     |
-| Team Seats             | 1     | 3   | 6        | Custom     |
-| Concurrent Builds      | 1     | 3   | 6        | Custom     |
+|                                        | Hobby | Pro  | Enterprise |
+| -------------------------------------- | ----- | ---- | ---------- |
+| Deployments (per day)                  | 100   | 3000 | Custom     |
+| Serverless Functions per Deployment    | 12    | 24   | Custom     |
+| Serverless Functions per Month         | 160   | 640  | Custom     |
+| Serverless Function Duration (Seconds) | 10    | 60   | 900        |
+| Deployments created from CLI per week  | 2000  | 2000 | Custom     |
+| Team members per Team                  | -     | 10   | Custom     |
 
-### Plan Limits
-
-**Plan Limits** are limitations that apply to specific plans that **cannot** be increased, the only way to do so is to upgrade to a higher tier pricing plan.
-
-| Limit                               | Hobby | Pro  | Business | Enterprise |
-| ----------------------------------- | ----- | ---- | -------- | ---------- |
-| Deployments (per day)               | 100   | 3000 | 3000     | Custom     |
-| Deployment History                  | 10    | -    | -        | -          |
-| Execution Duration (Seconds)        | 10    | 60   | 600      | 900        |
-| Serverless Functions per Deployment | 12    | -    | -        | -          |
-| Serverless Functions per Month      | 160   | -    | -        | -          |
+<Note>
+  Next.js Static Site Generation and Next.js Preview Serverless Functions are
+  excluded from the count for "Maximum Functions per Deployment".
+</Note>
 
 ## Logs
 
@@ -61,17 +48,13 @@ All other logs are stored in memory only and are **not persisted** between page 
 
 ## Environment Variables
 
-The total size of [environment variables](/docs/v2/serverless-functions/env-and-secrets/) is **limited to 4kb**.
+The total size of [Environment Variables](/docs/v2/build-step#environment-variables) is **limited to 4kb**.
 
 [Deployments](/docs/v2/platform/deployments) made with environment variables exceeding the 4kb limit will fail at the [build step](/docs/v2/build-step/).
 
 ## Domains
 
-The maximum amount of domains that can be applied to a single project, either from the ZEIT Dashboard or by using the `alias` key in a `now.json` file is **50**.
-
-It is not possible to add more than 50 domains to a project using the ZEIT Dashboard.
-
-[Deployments](/docs/v2/platform/deployments) made with more than 50 `alias` in a `now.json` file will fail at the [build step](/docs/v2/build-step/).
+The maximum amount of domains that can be applied to a single project is **50**. If your Project requires more than 50 domains, please <EmailLink type="sales">contact our enterprise team</EmailLink>.
 
 ## Files
 
@@ -81,7 +64,7 @@ Deployments made that contain more files than the limit will fail at the [build 
 
 ## HTTP/2 Push
 
-The ZEIT Now platform does not currently support HTTP/2 Push.
+The <ProductName /> platform does not currently support HTTP/2 Push.
 
 ## WebSockets
 
@@ -93,7 +76,7 @@ If you need persistent connections to push data to the client, consider using th
 
 ## SMTP
 
-For security reasons, the ZEIT Now platform blocks outgoing SMTP connections.
+For security reasons, the <ProductName /> platform blocks outgoing SMTP connections.
 
 As a result of this, we recommend using a third-party service to enable email functionality for [deployments](/docs/v2/platform/deployments).
 
@@ -113,7 +96,7 @@ You can use the [functions](/docs/configuration#project/functions) property to a
 
 The maximum number of concurrent executions for a [Serverless Function](/docs/v2/serverless-functions/introduction/) is `1000`.
 
-If you require a limit above `1000`, you should [contact our enterprise department](mailto:sales@zeit.co) to discuss custom limits available on an enterprise plan.
+If you require a limit above `1000`, you should <EmailLink type="sales">contact our enterprise team</EmailLink> to discuss custom limits available on an enterprise plan.
 
 ## Serverless Function Payload Size Limit
 
@@ -129,12 +112,13 @@ When attempting to deploy Serverless Functions to multiple regions on the Hobby 
 
 ## Streaming Responses
 
-ZEIT Now does not support streaming responses from Serverless Functions due to an upstream limitation from AWS.
+​<ProductName /> does not support streaming responses from Serverless Functions due to an upstream limitation from AWS.
 
 ## Reserved Variables
 
 The following environment variable names are [reserved](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#lambda-environment-variables) and therefore unavailable for use:
 
+- Names starting with `NOW_`
 - `AWS_REGION`
 - `AWS_DEFAULT_REGION`
 - `AWS_ACCESS_KEY_ID`

@@ -5,19 +5,22 @@ import Link from '~/components/text/link'
 import Caption from '~/components/text/caption'
 import Note from '~/components/text/note'
 import { Image } from '~/components/media'
+import ProductName from '~/components/name/product-name'
+import OrgName from '~/components/name/org-name'
+import { PRODUCT_NAME } from '~/lib/constants'
 
 export const meta = {
   title: 'Projects',
-  description: 'Setting up projects with a list of deployments on ZEIT Now.',
+  description: `Setting up projects with a list of deployments on ${PRODUCT_NAME}.`,
   editUrl: 'pages/docs/v2/platform/projects.mdx',
-  lastEdited: '2020-03-20T03:35:23.000Z'
+  lastEdited: '2020-04-14T00:02:08.000Z'
 }
 
-To deploy on ZEIT Now, you need to create a **Project**. A Project is a logical structure that groups [deployments](/docs/v2/platform/deployments) and [custom domains](/docs/v2/custom-domains). Each project can be associated to a [GitHub](/docs/v2/git-integrations/zeit-now-for-github), [GitLab](/docs/v2/git-integrations/zeit-now-for-gitlab), or [Bitbucket](/docs/v2/git-integrations/zeit-now-for-bitbucket) repository.
+To deploy on <ProductName />, you need to create a **Project**. A Project is a logical structure that groups [deployments](/docs/v2/platform/deployments) and [custom domains](/docs/v2/custom-domains). Each project can be associated to a [GitHub](/docs/v2/git-integrations/zeit-now-for-github), [GitLab](/docs/v2/git-integrations/zeit-now-for-gitlab), or [Bitbucket](/docs/v2/git-integrations/zeit-now-for-bitbucket) repository.
 
 ## Creating a Project
 
-You can create a new project from the ZEIT Dashboard by clicking on [the New Project button](/new).
+You can create a new project from the <OrgName /> Dashboard by clicking on [the New Project button](/new).
 
 <Image
   src={`${process.env.ASSETS}/docs/platform/projects/new-project.png`}
@@ -25,7 +28,7 @@ You can create a new project from the ZEIT Dashboard by clicking on [the New Pro
   height={516 / 2}
   shadow
 />
-<Caption>Creating a new project from the ZEIT Dashboard.</Caption>
+<Caption>Creating a new project from the <OrgName /> Dashboard.</Caption>
 
 You can either [import from an existing Git repository](/docs/v2/git-integrations) or use one of our templates.
 
@@ -39,7 +42,7 @@ To edit project settings, choose a project from the [dashboard](https://zeit.co/
   height={410 / 2}
   shadow
 />
-<Caption>Selecting the project from the ZEIT Dashboard.</Caption>
+<Caption>Selecting the project from the <OrgName /> Dashboard.</Caption>
 
 Then, select the **Settings** tab:
 
@@ -54,7 +57,11 @@ Then, select the **Settings** tab:
 
 ### Build & Development Settings and Root Directory
 
-You can edit build and development settings as well as the root directory settings. Check out [our Build Step documentation](/docs/v2/build-step) to learm more.
+You can edit build and development settings as well as the root directory settings. Check out [our Build Step documentation](/docs/v2/build-step) to learn more.
+
+### Environment Variables
+
+You can configure Environment Variables directly from Project Settings. Check out [the Environment Variables section of our Build Step documentation](/docs/v2/build-step#environment-variables) to learn more.
 
 ### Logs and Source Access
 
@@ -126,7 +133,7 @@ If you’d like to disconnect your **personal account** or **team** from GitHub,
 
 ### Deploy Hooks
 
-ZEIT Now supports **deploy hooks**, which are unique URLs that accept HTTP POST requests and trigger deployments. Check out [our Deploy Hooks documentation](/docs/v2/more/deploy-hooks) to learn more.
+​<ProductName /> supports **deploy hooks**, which are unique URLs that accept HTTP POST requests and trigger deployments. Check out [our Deploy Hooks documentation](/docs/v2/more/deploy-hooks) to learn more.
 
 ## Deleting a Project
 
@@ -145,7 +152,7 @@ To delete a project, choose a project from the [dashboard](https://zeit.co/dashb
   height={410 / 2}
   shadow
 />
-<Caption>Selecting the project from the ZEIT Dashboard.</Caption>
+<Caption>Selecting the project from the <OrgName /> Dashboard.</Caption>
 
 Then, select the **Settings** tab:
 

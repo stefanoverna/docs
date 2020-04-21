@@ -5,15 +5,18 @@ import { InlineCode } from '~/components/text/code'
 import Caption from '~/components/text/caption'
 import Card from '~/components/card'
 import Note from '~/components/text/note'
+import ProductName from '~/components/name/product-name'
+import { PRODUCT_NAME } from '~/lib/constants'
+import ProductShortName from '~/components/name/product-short-name'
 
 export const meta = {
   title: 'Serverless Functions',
-  description: 'Learn how to deploy Serverless Functions with ZEIT Now.',
+  description: `Learn how to deploy Serverless Functions with ${PRODUCT_NAME}.`,
   editUrl: 'pages/docs/v2/serverless-functions/introduction.mdx',
-  lastEdited: '2020-03-02T22:10:22.000Z'
+  lastEdited: '2020-04-14T00:02:08.000Z'
 }
 
-With ZEIT Now, you can deploy Serverless Functions, which are pieces of code written with [backend languages](/docs/v2/serverless-functions/supported-languages/#supported-languages) that take an HTTP request and provide a response.
+With <ProductName />, you can deploy Serverless Functions, which are pieces of code written with [backend languages](/docs/v2/serverless-functions/supported-languages/#supported-languages) that take an HTTP request and provide a response.
 
 You can use Serverless Functions to handle user authentication, form submission, database queries, custom
 slack commands, and more.
@@ -26,7 +29,7 @@ To create a Serverless Function, create a file in an `/api` directory from your 
   If you are using Next.js, use the <InlineCode>/pages/api</InlineCode>{' '}
   directory instead.
   <br />
-  <Link href="https://nextjs.org/docs#api-routes">
+  <Link href="https://nextjs.org/docs/api-routes/introduction">
     Read more about API functionality with Next.js
   </Link>
   .
@@ -56,13 +59,13 @@ To deploy Serverless Functions without any additional configuration, you can put
   If you are using Next.js, use the <InlineCode>/pages/api</InlineCode>{' '}
   directory instead.
   <br />
-  <Link href="https://nextjs.org/docs#api-routes">
+  <Link href="https://nextjs.org/docs/api-routes/introduction">
     Read more about API functionality with Next.js
   </Link>
   .
 </Note>
 
-Then, push to your connected Git repository using a [ZEIT Now for Git Integration](/docs/v2/git-integrations) to receive a deployment automatically.
+Then, push to your connected Git repository using a [<ProductName /> for Git Integration](/docs/v2/git-integrations) to receive a deployment automatically.
 
 ### An Example Node.js Serverless Function
 
@@ -89,7 +92,7 @@ module.exports = (req, res) => {
 
 The above example echoes the `body`, path `query`, and `cookie`s, passed with the request object, as a JSON object using helper methods provided through the [Request and Response](/docs/v2/serverless-functions/supported-languages/#node.js-request-and-response-objects).
 
-Then, all you need to do, to have a live API, is push to your connected Git repository using a [ZEIT Now for Git Integration](/docs/v2/git-integrations) to receive a deployment automatically.
+Then, all you need to do, to have a live API, is push to your connected Git repository using a [<ProductName /> for Git Integration](/docs/v2/git-integrations) to receive a deployment automatically.
 
 The resulting deployment will contain your Node.js Serverless Function and will provide you with a URL like the following, with your API ready to go: <https://node-echo-api.now-examples.now.sh/api/?name=zeit>
 
@@ -97,9 +100,14 @@ The resulting deployment will contain your Node.js Serverless Function and will 
 
 For all supported languages, see the [Supported Languages for Serverless Functions documentation](/docs/v2/serverless-functions/supported-languages).
 
-More examples of applications you can deploy paired with Serverless Functions can be found in the [ZEIT Now repository on GitHub](https://github.com/zeit/now/tree/master/examples).
+More examples of applications you can deploy paired with Serverless Functions can be found in the [<ProductName /> repository on GitHub](https://github.com/zeit/now/tree/master/examples).
 
-You can get started with many of the ZEIT Now examples by deploying them from the [Quickstarts section](/docs/v2/introduction#quickstarts).
+You can get started with many of the <ProductName /> examples by deploying them from the [Quickstarts section](/docs/v2/introduction#quickstarts).
+
+## Environment Variables
+
+You can configure Environment Variables for your Serverless Functions directly from Project Settings.
+Check out [the Environment Variables section of our Build Step documentation](/docs/v2/build-step#environment-variables) to learn more.
 
 ## Prevent Endpoint Listing
 
@@ -113,7 +121,7 @@ If you kept your utility functions inside of `/api/utils`, one called `date.js` 
 
 ## Path Segments
 
-Deploying Serverless Functions with ZEIT Now gives you the ability to use path segments through file names instead of a complex routes file.
+Deploying Serverless Functions with <ProductName /> gives you the ability to use path segments through file names instead of a complex routes file.
 
 Creating a file using any of the [supported languages](/docs/v2/serverless-functions/supported-languages) in the `/api` directory and wrapping the filename in square brackets, such as `[name].js` will provide you with a file that takes a path segment and gives it to the function when requested with a value.
 
@@ -156,12 +164,12 @@ The resulting deployment can be found here: <https://path-segment-with-node.now-
 
 ## Local Development
 
-ZEIT Now provides an additional command with [Now CLI](/download) to help you develop Serverless Functions locally by replicating the production environment on ZEIT Now with your localhost.
+​<ProductName /> provides an additional command with [<ProductShortName /> CLI](/download) to help you develop Serverless Functions locally by replicating the production environment on <ProductName /> with your localhost.
 
 If you have an `api` directory like the [above examples](#deploying-serverless-functions) on this page, you can run the following command to start a local development environment that supports your serverless API and allows you to develop locally, just make sure to install your project's dependencies first with `npm install`:
 
 <Snippet dark text="now dev" />
-<Caption>Starting a local development environment using Now CLI, for Serverless Functions.</Caption>
+<Caption>Starting a local development environment using <ProductShortName /> CLI, for Serverless Functions.</Caption>
 
 <Note>
   The <InlineCode>now dev</InlineCode> command is still in beta. If you have any
@@ -193,7 +201,7 @@ If you have a statically generated frontend that supports its own development en
 
 ### Using Environment Variables Locally
 
-During local development with `now dev`, you may wish to provide your application with environment variables. You can find instructions on how to do this in the [environment variables and secrets section](/docs/v2/serverless-functions/env-and-secrets/#during-local-development).
+During local development with `now dev`, you may wish to provide your application with environment variables. You can find instructions on how to do this in the [Environment Variables section of the Build Step documentation](/docs/v2/build-step#environment-variables).
 
 ## Advanced Usage
 
@@ -214,7 +222,7 @@ For example, with 1,792MB memory configured, a Serverless Function will have the
 For more information on what to do next, we recommend the following articles:
 
 <Card title="Git Integration" href="/docs/v2/git-integrations">
-  Learn more about how ZEIT Now integrates with Git to make your workflow
+  Learn more about how <ProductName /> integrates with Git to make your workflow
   easier.
 </Card>
 

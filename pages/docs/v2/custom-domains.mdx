@@ -5,23 +5,26 @@ import Note from '~/components/text/note'
 import Card from '~/components/card'
 import { Image } from '~/components/media'
 import { InlineCode } from '~/components/text/code'
+import ProductName from '~/components/name/product-name'
+import OrgName from '~/components/name/org-name'
+import { PRODUCT_NAME } from '~/lib/constants'
 
 export const meta = {
   title: 'Custom Domains',
   description: 'How to add and use a custom domain with your project.',
   editUrl: 'pages/docs/v2/custom-domains.mdx',
-  lastEdited: '2020-03-19T03:52:05.000Z'
+  lastEdited: '2020-04-14T00:02:08.000Z'
 }
 
 By default, all deployments are assigned a `.now.sh` suffixed domain.
 
-This domain can be replaced with a **Custom Domain** of your choice. This Custom Domain can be purchased with ZEIT or a third-party.
+This domain can be replaced with a **Custom Domain** of your choice. This Custom Domain can be purchased with <OrgName /> or a third-party.
 
-In this document, adding a domain to your ZEIT Now [projects](/docs/v2/platform/projects/) is explained in detail.
+In this document, adding a domain to your <ProductName /> [projects](/docs/v2/platform/projects/) is explained in detail.
 
 ## Adding a Domain
 
-If you don't own a domain yet, you can [purchase it with ZEIT](https://zeit.co/domains). Then, once you own a domain, adding it to a project is very straightforward:
+If you don't own a domain yet, you can [purchase it with <OrgName />](https://zeit.co/domains). Then, once you own a domain, adding it to a project is very straightforward:
 
 ### Step 1: Selecting Your Project
 
@@ -33,7 +36,7 @@ On the [dashboard](https://zeit.co/dashboard), pick the project to which you wou
   height={410 / 2}
   shadow
 />
-<Caption>Selecting the project from the ZEIT Dashboard.</Caption>
+<Caption>Selecting the project from the <OrgName /> Dashboard.</Caption>
 
 ### Step 2: Navigating to Domain Settings
 
@@ -141,7 +144,7 @@ Once the domain has been added to your project and configured, it is **automatic
   subsequently assigned with your custom domain automatically.
 </Note>
 
-When a custom domain is assigned to a project with an enabled [ZEIT Now for Git Integration](/docs/v2/git-integrations), each push (including merges) to the default branch (commonly `master`) will trigger a deployment to the defined domain.
+When a custom domain is assigned to a project with an enabled [<ProductName /> for Git Integration](/docs/v2/git-integrations), each push (including merges) to the default branch (commonly `master`) will trigger a deployment to the defined domain.
 
 Reverts take effect immediately, assigning the custom domain to the deployment made prior to the point the revert is effective from.
 
@@ -161,7 +164,7 @@ To add a redirect, click the **Edit** button for the domain you want to redirect
 
 ## Moving Domains
 
-You can move domains to another profile or team using the **Domains** tab from the **ZEIT Dashboard**.
+You can move domains to another profile or team using the **Domains** tab from the **<OrgName /> Dashboard**.
 
 <Image
   src={`${process.env.ASSETS}/docs/custom-domains/select-domains-tab.png`}
@@ -169,7 +172,7 @@ You can move domains to another profile or team using the **Domains** tab from t
   height={278 / 2}
   shadow
 />
-<Caption>Selecting the <b>Domains</b> tab from the ZEIT Dashboard page.</Caption>
+<Caption>Selecting the <b>Domains</b> tab from the <OrgName /> Dashboard page.</Caption>
 
 Once on the **Domains** tab, select the domain(s) you wish to move by using the checkbox next to each domain then click **Move**.
 
@@ -245,7 +248,7 @@ To use [Cloudflare](https://www.cloudflare.com/)-managed domains, follow these s
 1. Configure your domain such that SSL is disabled for the path `/.well-known/**`.
 2. Run `curl http://<domain>/.well-known/acme-challenge` (Replace `<domain>` with your domain. Notice that it’s `http` and not `https`).
 
-If the above `curl` command returns an error (e.g. `{"error":{...}}`), then you’re good to go - it means that ZEIT can generate certificates successfully. Otherwise, make sure that SSL is disabled for `/.well-known/**` and try again.
+If the above `curl` command returns an error (e.g. `{"error":{...}}`), then you’re good to go - it means that <OrgName /> can generate certificates successfully. Otherwise, make sure that SSL is disabled for `/.well-known/**` and try again.
 
 ## Related
 
@@ -255,7 +258,7 @@ For more information on what to do next, we recommend the following article:
   title="Transferring Your Domain"
   href="/guides/transferring-domains-to-zeit-now"
 >
-  Learn how to transfer a domain to ZEIT Now.
+  Learn how to transfer a domain to <ProductName />.
 </Card>
 
 <Card

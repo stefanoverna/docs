@@ -11,7 +11,7 @@ export const meta = {
   title: 'Create a Next.js App with DatoCMS and Deploy It with ZEIT Now',
   description:
     'Deploy your Next.js and DatoCMS app with ZEIT Now in a serverless environment.',
-  published: '2020-04-01T16:51:04.000Z',
+  published: '2020-04-23T07:47:12.000Z',
   authors: ['stefanoverna'],
   url: '/guides/deploying-next-datocms-with-zeit-now',
   image:
@@ -20,7 +20,7 @@ export const meta = {
   name: 'Next.js + DatoCMS',
   type: 'site',
   demo: 'https://next-blog-datocms.now.sh/',
-  lastEdited: '2020-04-23T07:47:12.000Z'
+  lastEdited: '2020-04-23T08:33:32.000Z'
 }
 
 This guide walks you through creating a simple blog using Next.js's [Static Generation](https://nextjs.org/docs/basic-features/pages) feature and [DatoCMS](https://www.datocms.com/) through [DatoCMS GraphQL API](https://www.datocms.com/) and deploying the project with [ZEIT Now](/).
@@ -163,9 +163,12 @@ Create a new Next.js application using [create-next-app](https://create-react-ap
 
 <Snippet dark text="npm init next-app" />
 
-Enter inside the project directory, install the [`graphql-request`](https://github.com/prisma-labs/graphql-request) package and start the development server:
+Enter inside the project directory, install the [graphql-request](https://github.com/prisma-labs/graphql-request) and [react-datocms](https://github.com/datocms/react-datocms) package and start the development server:
 
-<Snippet dark text="cd my-app && yarn add graphql-request && yarn dev" />
+<Snippet
+  dark
+  text="cd my-app && yarn add graphql-request react-datocms && yarn dev"
+/>
 
 You'll need to setup a GraphQL client pointing to the API of your DatoCMS project. Create a new `lib` directory for that, and inside of it create a file called `datocms.js`:
 
@@ -198,71 +201,33 @@ Next, go to `pages/index.js` — that is, the component that renders the homepag
 
 ```jsx
 import { request } from '../lib/datocms'
-
-const HOMEPAGE_QUERY = `
-  query Home($limit: IntType) {
-    allPosts(first: $limit) {
-      title
-      excerpt
-      date
-      author {
-        name
-      }
-    }
-  }
-`
-
-export async function getStaticProps() {
-  const data = await request({
-    query: HOMEPAGE_QUERY,
-    variables: { limit: 10 }
-  })
-
-  return {
-    props: { data }
-  }
-}
-
-export default function Home({ data }) {
-  return <div>{JSON.stringify(data, null, 2)}</div>
-}
-```
-
-Let's take look at what this file achieves.
-
-First, it requires the GraphQL client we just created. Then, inside the [`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation) function, we perform the GraphQL request, so that Next.js will pre-render this page at build time using the props returned by it.
-
-<Note>
-  The query depends on the models available in your specific DatoCMS project.
-  You can learn everything you need regarding how to build GraphQL queries on
-  DatoCMS's{' '}
-  <Link href="https://www.datocms.com/docs/content-delivery-api">
-    Content Delivery API
-  </Link>{' '}
-  documentation.
-</Note>
-
-### Loading responsive, progressive images from DatoCMS
-
-One of the major advantages of using DatoCMS instead of any other content management systems is its [`responsiveImage` GraphQL query](/docs/content-delivery-api/images-and-videos#responsive-images), which will return **pre-computed image attributes that will help you set up progressive, lazy-loaded images in your frontend without any additional manipulation**.
-
-The [`react-datocms`](https://github.com/datocms/react-datocms) exposes an `<Image/>` component that pairs perfectly with the `responsiveImage` query.
-
-To take advantage of it, install the [`react-datocms`](https://github.com/datocms/react-datocms) package:
-
-<Snippet dark text="yarn add react-datocms" />
-
-Then, inside the page, feed the content coming from a `responsiveImage` query directly into the `Image` component:
-
-```jsx
-import { request } from '../lib/datocms'
-import { Image } from 'react-datocms'
+import { Image, renderMetaTags } from 'react-datocms'
+import Head from 'next/head'
 
 const HOMEPAGE_QUERY = `
 query HomePage($limit: IntType) {
+  site: _site {
+    favicon: faviconMetaTags {
+      attributes
+      content
+      tag
+    }
+  }
+  blog {
+    seo: _seoMetaTags {
+      attributes
+      content
+      tag
+    }
+  }
   allPosts(first: $limit) {
     id
     title
+    excerpt
+    date
+    author {
+      name
+    }
     coverImage {
       responsiveImage(imgixParams: { fit: crop, w: 300, h: 300, auto: format }) {
         srcSet
@@ -296,6 +261,7 @@ export async function getStaticProps() {
 export default function Home({ data }) {
   return (
     <div>
+      <Head>{renderMetaTags(data.blog.seo.concat(data.site.favicon))}</Head>
       {data.allPosts.map(blogPost => (
         <article key={blogPost.id}>
           <Image data={blogPost.coverImage.responsiveImage} />
@@ -307,65 +273,29 @@ export default function Home({ data }) {
 }
 ```
 
-## Manage SEO
+Let's take look at what this file achieves.
 
-Similarly to what DatoCMS offers with responsive images, its GraphQL API also offers a way to fetch **[pre-computed SEO meta tags](https://www.datocms.com/docs/content-delivery-api/seo-and-favicon) based on the content you insert inside DatoCMS**.
+First, it requires the GraphQL client we just created. Then, inside the [`getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation) function, we perform the GraphQL request, so that Next.js will **pre-render this page at build time** using the props returned by it.
 
-You can easily use this information inside your Next app with the help of the [`react-datocms`](https://github.com/datocms/react-datocms) package we already installed.
+The `responsiveImage` part of the GraphQL query returns image attributes that will help you set up [responsive images in your frontend](/docs/content-delivery-api/images-and-videos#responsive-images) without any additional manipulation. The page component passes this data to the `<Image/>` component of the [react-datocms](https://github.com/datocms/react-datocms) package to render a **lazy-loaded image with low-quality image placeholder**.
 
-Inside your page, feed content coming from a `faviconMetaTags` or `_seoMetaTags` query directly into the `renderMetaTags` function:
+Similarly to what DatoCMS offers with responsive images, both the `faviconMetaTags` and `_seoMetaTags` parts of the query return [pre-computed meta tags](https://www.datocms.com/docs/content-delivery-api/seo-and-favicon) based on the content you insert inside DatoCMS. You can easily append such meta tags to the `head` of your page using Next.js's `<Head/>` component and the `renderMetaTags` helper, which is also part of the [react-datocms](https://github.com/datocms/react-datocms) package.
 
-```jsx
-import { request } from '../lib/datocms'
-import { renderMetaTags } from 'react-datocms'
-import Head from 'next/head'
-
-const HOMEPAGE_QUERY = `
-  {
-    site: _site {
-      favicon: faviconMetaTags {
-        attributes
-        content
-        tag
-      }
-    }
-    blog {
-      seo: _seoMetaTags {
-        attributes
-        content
-        tag
-      }
-    }
-  }`
-
-export async function getStaticProps() {
-  const data = await request({
-    query: HOMEPAGE_QUERY,
-    variables: { limit: 10 }
-  })
-
-  return {
-    props: {
-      data
-    }
-  }
-}
-
-export default function Home({ data }) {
-  return (
-    <div>
-      <Head>{renderMetaTags(data.blog.seo.concat(data.site.favicon))}</Head>
-      {/* ... */}
-    </div>
-  )
-}
-```
+<Note>
+  The precise query to use depends on the models available in your specific
+  DatoCMS project! You can learn everything you need regarding how to build
+  GraphQL queries on DatoCMS's{' '}
+  <Link href="https://www.datocms.com/docs/content-delivery-api">
+    Content Delivery API
+  </Link>{' '}
+  documentation.
+</Note>
 
 ## Setup Next.js Preview Mode
 
 When using `getStaticProps`, the props will be generated at build time, which is great from a performance point of view, but not ideal when you’re [writing a draft on DatoCMS](https://www.datocms.com/docs/general-concepts/draft-published). In this case, you want to preview the draft immediately on your page.
 
-For solving that problem, Next.js has the feature called [Preview Mode](https://nextjs.org/docs/advanced-features/preview-mode). Here’s an example of how to use it:
+For solving that problem, Next.js has the feature called [Preview Mode](https://nextjs.org/docs/advanced-features/preview-mode).
 
 ### Create a preview API route
 

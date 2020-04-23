@@ -20,7 +20,7 @@ export const meta = {
   name: 'Next.js + DatoCMS',
   type: 'site',
   demo: 'https://next-blog-datocms.now.sh/',
-  lastEdited: '2020-04-01T08:16:03.000Z'
+  lastEdited: '2020-04-23T07:47:12.000Z'
 }
 
 This guide walks you through creating a simple blog using Next.js's [Static Generation](https://nextjs.org/docs/basic-features/pages) feature and [DatoCMS](https://www.datocms.com/) through [DatoCMS GraphQL API](https://www.datocms.com/) and deploying the project with [ZEIT Now](/).
@@ -397,14 +397,6 @@ In this case, we can use the `https://graphql.datocms.com/preview` endpoint to *
 Both endpoints offer exactly the same queries, the only thing that will change will be the returned content:
 
 ```jsx
-import { request } from '../lib/datocms'
-
-const HOMEPAGE_QUERY = `query HomePage($limit: IntType) {
-  allPosts(first: $limit) {
-    title
-  }
-}`
-
 export async function getStaticProps(context) {
   const data = await request({
     query: HOMEPAGE_QUERY,
@@ -415,10 +407,6 @@ export async function getStaticProps(context) {
   return {
     props: { data }
   }
-}
-
-export default function Home({ data }) {
-  return <div>{JSON.stringify(data, null, 2)}</div>
 }
 ```
 
